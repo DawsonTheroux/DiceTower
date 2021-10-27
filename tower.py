@@ -5,7 +5,7 @@ ret, image = cam.read()
 
 image = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 
-image = cv2.blur(image, (2,2))	#Blur the imaget to help with binary detection.
+image = cv2.blur(image, (3,3))	#Blur the imaget to help with binary detection.
 
 ret, image = cv2.threshold(image, 50, 255, cv2.THRESH_TOZERO) #Turn into binary image.
 
@@ -23,7 +23,7 @@ for contour in contours:
 	if w>5 and h>10:
 		cv2.rectangle(image,(x,y),(x+w,y+h),(155,155,0),1)
 	
-	print("Number Dice:" + str(len(dice_rects)))
+print("Number Dice:" + str(len(dice_rects)))
 
 image = cv2.putText(image, "Dice: " + str(len(dice_rects)), (10,10), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,0), 2, cv2.LINE_AA)
 
