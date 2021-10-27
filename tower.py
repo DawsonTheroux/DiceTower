@@ -1,4 +1,5 @@
 import cv2
+import numpy as np
 
 cam = cv2.VideoCapture(0)
 ret, image = cam.read()
@@ -17,11 +18,11 @@ dummy,contours, hierarchy = cv2.findContours(image, cv2.RETR_TREE, cv2.CHAIN_APP
 dice_rects = []
 
 for contour in contours:
-	x,y,w,h = cv2.boundingRect(contour)
-	rect = [x,y,w,h]
-	dice_rects.append(rect)
-	if w>5 and h>10:
-		cv2.rectangle(image,(x,y),(x+w,y+h),(155,155,0),1)
+	rect = cv2.minAreaRect(contour)
+	box = cv2.boxPoints(rect)
+	box = np.int0(box)
+	dice_rects.append(box)
+	image = cv2.drawContours(image, [box], 0, (0,0,255),1)
 	
 print("Number Dice:" + str(len(dice_rects)))
 
